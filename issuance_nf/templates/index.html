@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class='container'>
+    <div>
+        <a href="{% url 'create' %}" class="btn btn-success">Cadastrar nova</a>
+    </div>
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Data</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emissor in data %}
+            <tr>
+                <th scope="row">{{emissor.id}}</th>
+                <td>{{emissor.nome}}</td>
+                <td>{{emissor.email}}</td>
+                <td>{{emissor.data_emissao}}</td>
+                <td>
+                    <a href="{% url 'delete' emissor.pk %}" class="btn btn-danger btn-sm mr-2">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

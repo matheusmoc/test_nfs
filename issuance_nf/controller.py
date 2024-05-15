@@ -4,7 +4,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .models import NotaFiscal
-from django.http import HttpResponseBadRequest
+from .forms import NotaFiscalForm
 
 
 class IssuanceIndexView(View):
@@ -38,15 +38,16 @@ class IssuanceDeleteView(View):
         nota_fiscal.delete()
         return redirect('/nfs')
         
-class IssuanceUpdateView(View):
-    def get(self, request):
-        return render(request, 'update.html')
-    
-    def put(self, request, pk):
+class IssuanceEditView(View):
+    def get(self, request, pk):
         nota_fiscal = get_object_or_404(NotaFiscal, pk=pk)
-        nota_fiscal.nome = request.POST.get('nome')
-        nota_fiscal.email = request.POST.get('email')
-        nota_fiscal.telefone = request.POST.get('telefone')
-        nota_fiscal.data_emissao = request.POST.get('data_emissao')
-        nota_fiscal.save()
-        return HttpResponse("Emissor atualizado com sucesso!")
+        form = NotaFiscalForm(instance=nota_fiscal)
+        return render(request, 'edit.html', {'form': form})
+    
+    def post(self, request, pk):
+        nota_fiscal = get_object_or_404(NotaFiscal, pk=pk)
+        form = NotaFiscalForm(request.POST, instance=nota_fiscal)
+        if form.is_valid():
+            form.save()
+            return redirect('edit', pk=pk)
+        return render(request, 'edit.html', {'form': form})

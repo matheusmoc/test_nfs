@@ -17,14 +17,17 @@
             </tr>
         </thead>
         <tbody>
-            {% for emissor in data %}
+            {% for nota_fiscal in data %}
             <tr>
-                <th scope="row">{{emissor.id}}</th>
-                <td>{{emissor.nome}}</td>
-                <td>{{emissor.email}}</td>
-                <td>{{emissor.data_emissao}}</td>
+                <th scope="row">{{nota_fiscal.id}}</th>
+                <td>{{nota_fiscal.emissor.nome}}</td>
+                <td>{{nota_fiscal.emissor.email}}</td>
+                <td>{{nota_fiscal.data_emissao}}</td>
                 <td>
-                    <a href="{% url 'delete' emissor.pk %}" class="btn btn-danger btn-sm mr-2">Excluir</a>
+                    <form action="{% url 'delete' nota_fiscal.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm mr-2">Excluir</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}

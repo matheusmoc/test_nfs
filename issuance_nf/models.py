@@ -18,13 +18,13 @@ class Telefone(models.Model):
     def __str__(self):
         return f'{self.numero} - {self.emissor}'
 
-class Data(models.Model):
+class NotaFiscal(models.Model):
     data_emissao = models.DateTimeField(auto_now_add=True)
     emissor = models.ForeignKey(Emissor, on_delete=models.CASCADE) 
 
     @property
     def data_emissao_formatada(self):
-        return self.data_emissao.strftime('%d/%m/%Y %HH:%MM')
+        return self.data_emissao.strftime('%d/%m/%Y %H:%M')
    
 
     def __str__(self):
